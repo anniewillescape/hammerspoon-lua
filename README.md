@@ -8,8 +8,12 @@
 4. Run `symlink.sh`. It will make symlink to `~/.hammerspoon/init.lua`
 5. Run Hammerspoon (or click [Reload Config] on Hammerspoon window).
 
-## Default setting 
-- `ctrl + opt + ←` : Bring the focused window to the left half of the screen.
-- `ctrl + opt + →` : Bring the focused window to the right half of the screen.
-- `ctrl + opt + ↑` : Bring the focused window to the top half of the screen.
-- `ctrl + opt + ↓` : Bring the focused window to the down half of the screen.
+## Example of settings in init.lua
+- `ctrl + option + ←` : Bring the focused window to the left half of the screen.
+- `ctrl + option + →` : Bring the focused window to the right half of the screen.
+- `ctrl + option + ↑` : Bring the focused window to the top half of the screen.
+- `ctrl + option + ↓` : Bring the focused window to the down half of the screen.
+- `ctrl + option + return` : Maximize the size of the focused window.
+
+## Motivation
+I am trying to reproduce the key binding for screen resizing that [magnet.app](https://magnet.crowdcafe.com/) can do for mac user.
