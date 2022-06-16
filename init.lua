@@ -28,3 +28,64 @@ hs.hotkey.bind(mash, 'u', function() hs.window.focusedWindow():move(units.toplef
 hs.hotkey.bind(mash, 'j', function() hs.window.focusedWindow():move(units.botleft50, nil, true) end)
 
 hs.hotkey.bind(mash, 'return', function() hs.window.focusedWindow():move(units.maximum, nil, true) end)
+
+-- leftCmdで英入力 rightCmdで
+local simpleCmd = false
+local map = hs.keycodes.map
+local function eikanaEvent(event)
+    local c = event:getKeyCode()
+    local f = event:getFlags()
+    if event:getType() == hs.eventtap.event.types.keyDown then
+        if f['cmd'] then
+            simpleCmd = true
+        end
+    elseif event:getType() == hs.eventtap.event.types.flagsChanged then
+        if not f['cmd'] then
+            if simpleCmd == false then
+                if c == map['cmd'] then
+                    hs.keycodes.setMethod('Alphanumeric (Google)')
+                elseif c == map['rightcmd'] then
+                    hs.keycodes.setMethod('Hiragana (Google)')
+                end
+            end
+            simpleCmd = false
+        end
+    end
+end
+
+eikana = hs.eventtap.new({hs.eventtap.event.types.keyDown, hs.eventtap.event.types.flagsChanged}, eikanaEvent)
+eikana:start()
+
+-- leftCmdダブルクリックで日→英 変換
+firstCmd = false
+secondCmd = false
+
+local function cancelCmd()
+    firstCmd = false
+    secondCmd = false
+end
+
+local function conversion(event)
+    local c = event:getKeyCode()
+    local f = event:getFlags()
+    if event:getType() == hs.eventtap.event.types.flagsChanged then
+        if c == map['cmd']then
+            if firstCmd then
+                secondCmd = true
+            end
+            firstCmd = true
+            hs.timer.doAfter(0.1, function()
+                cancelCmd()
+            end)
+            if firstCmd and secondCmd then
+                cancelCmd()
+                -- hs.application.launchOrFocusByBundleID('com.apple.Terminal')
+                hs.eventtap.keyStroke({'fn'}, 'f10')
+            end
+        else
+            cancelCmd()
+        end
+    end
+end
+kanatoei = hs.eventtap.new({hs.eventtap.event.types.flagsChanged},conversion)
+kanatoei:start()
