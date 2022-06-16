@@ -29,7 +29,7 @@ hs.hotkey.bind(mash, 'j', function() hs.window.focusedWindow():move(units.botlef
 
 hs.hotkey.bind(mash, 'return', function() hs.window.focusedWindow():move(units.maximum, nil, true) end)
 
--- leftCmdで英入力 rightCmdで
+-- leftCmdでAlphanumeric入力 rightCmdでHiragana入力
 local simpleCmd = false
 local map = hs.keycodes.map
 local function eikanaEvent(event)
@@ -79,8 +79,8 @@ local function conversion(event)
             end)
             if firstCmd and secondCmd then
                 cancelCmd()
-                -- hs.application.launchOrFocusByBundleID('com.apple.Terminal')
-                hs.eventtap.keyStroke({'fn'}, 'f10')
+                hs.eventtap.keyStroke({'fn'}, 'f10', true)
+                hs.eventtap.keyStroke({}, 'return')
             end
         else
             cancelCmd()
