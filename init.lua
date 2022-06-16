@@ -80,7 +80,6 @@ local function conversion(event)
             if firstCmd and secondCmd then
                 cancelCmd()
                 hs.eventtap.keyStroke({'fn'}, 'f10', true)
-                hs.eventtap.keyStroke({}, 'return')
             end
         else
             cancelCmd()
